@@ -1,0 +1,15 @@
+/.vscode/*
+chromedriver.exe
+dc_realtime_error.log
+dc_global_error.log
+dc_hit_error.log
+fm_error.log
+fm_all.log
+dc_realtime_all_error.log
+dc_global_all_error.log
+dc_hit_all_error.log
+fm_all_error.log
+ccm_1600px/
+performance.txt
+xxx.txt
+db_env.py

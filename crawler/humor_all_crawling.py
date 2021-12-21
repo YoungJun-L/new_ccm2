@@ -1,5 +1,4 @@
 from bs4 import BeautifulSoup
-from datetime import date, datetime, time
 from pymysql import connect
 
 import requests
@@ -78,10 +77,11 @@ class Crawling:
                     tag.replaceWith("")
                 title = title.get_text().strip()
 
-                timeString = i.find("span", "w_time").text.strip().split(":")
-
-                timeValue = datetime.combine(
-                    date.today(), time(int(timeString[0]), int(timeString[1]))
+                timeValue = (
+                    i.find("span", "w_date").text.strip()
+                    + " "
+                    + i.find("span", "w_time").text.strip()
+                    + ":00"
                 )
 
                 viewNum = i.find_all("td", "li_und")[0].text.strip().replace(",", "")
@@ -98,13 +98,13 @@ class Crawling:
                         replyNum,
                         viewNum,
                         voteNum,
-                        timeValue.strftime("%Y-%m-%d %H:%M:%S"),
+                        timeValue,
                         url,
                         title,
                         replyNum,
                         viewNum,
                         voteNum,
-                        timeValue.strftime("%Y-%m-%d %H:%M:%S"),
+                        timeValue,
                     )
                 )
                 self.url_list.append(url)
@@ -116,7 +116,7 @@ class Crawling:
             logging.debug(f"{len(self.post_list)} Posts Crawled")
 
     def get_content(self, url) -> None:
-        t.sleep(random.randint(2, 3))
+        t.sleep(random.randint(3, 6))
         try:
             reqUrl = requests.get(
                 url,

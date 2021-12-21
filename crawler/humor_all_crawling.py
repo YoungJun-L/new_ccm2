@@ -2,7 +2,6 @@ from bs4 import BeautifulSoup
 from datetime import date, datetime, time
 from pymysql import connect
 
-from multiprocessing import Pool, Manager
 import requests
 import time as t
 import random
@@ -18,23 +17,16 @@ class Crawling:
     def __init__(self):
         self.post_list = []
         self.url_list = []
-        manager = Manager()
-        self.len_imgCount_url_tuple_list = manager.list()
+        self.len_imgCount_url_tuple_list = []
 
     def execute(self, page, cnt) -> None:
         self.get_post_list(page)
         self.insert_post_list()
         del self.post_list
 
-        for _ in range(cnt // 5):
-            pool = Pool(processes=5)
-            tmp = []
-            for _ in range(5):
-                if self.url_list:
-                    tmp.append(self.url_list.pop())
-            pool.map(self.get_content, tmp)
-            pool.close()
-            pool.join()
+        for _ in range(cnt):
+            if self.url_list:
+                self.get_content(self.url_list.pop())
         self.update_content()
 
     def connect_to_db(self) -> connect:
@@ -124,7 +116,7 @@ class Crawling:
             logging.debug(f"{len(self.post_list)} Posts Crawled")
 
     def get_content(self, url) -> None:
-        t.sleep(random.randint(5, 6))
+        t.sleep(random.randint(2, 3))
         try:
             reqUrl = requests.get(
                 url,

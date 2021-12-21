@@ -1,11 +1,10 @@
 from urllib.request import urlopen, Request
 from bs4 import BeautifulSoup
-from datetime import datetime
 from pymysql import connect
 
-from multiprocessing import Pool, Manager
 import time
 import random
+import datetime
 import sys
 import logging
 import logging.config
@@ -17,23 +16,16 @@ class Crawling:
     def __init__(self):
         self.post_list = []
         self.url_list = []
-        manager = Manager()
-        self.len_imgCount_url_tuple_list = manager.list()
+        self.len_imgCount_url_tuple_list = []
 
     def execute(self, page, cnt) -> None:
         self.get_post_list(page)
         self.insert_post_list()
         del self.post_list
 
-        for _ in range(cnt // 5):
-            pool = Pool(processes=5)
-            tmp = []
-            for _ in range(5):
-                if self.url_list:
-                    tmp.append(self.url_list.pop())
-            pool.map(self.get_content, tmp)
-            pool.close()
-            pool.join()
+        for _ in range(cnt):
+            if self.url_list:
+                self.get_content(self.url_list.pop())
         self.update_content()
 
     def connect_to_db(self) -> connect:
@@ -47,7 +39,7 @@ class Crawling:
         return conn
 
     def get_post_list(self, page) -> None:
-        base_url = "https://gall.dcinside.com/board/lists/?id=hit&list_num=50&sort_type=N&exception_mode=recommend&search_head=&page="
+        base_url = "https://www.fmkorea.com/index.php?mid=best&listStyle=list&page="
         try:
             reqUrl = Request(
                 base_url + str(page),
@@ -59,70 +51,29 @@ class Crawling:
 
             soup = soup.find("tbody")
             for i in soup.find_all("tr"):
-                if (
-                    i.find("td", "gall_num").text.strip() == "설문"
-                    or i.find("td", "gall_num").text.strip() == "공지"
-                    or i.find("td", "gall_num").text.strip() == "이슈"
-                    or i.find("td", "gall_num").text.strip() == "AD"
-                ):
-                    continue
+                url = "https://www.fmkorea.com" + i.find("a", "hx")["href"]
 
-                url = (
-                    "https://gall.dcinside.com/"
-                    + i.find(
-                        "td",
-                        {
-                            "class": [
-                                "gall_tit ub-word",
-                                "gall_tit ub-word voice_tit",
-                            ]
-                        },
-                    ).find_all("a")[0]["href"]
-                )
+                title = i.find("a", "hx").text.strip()
 
-                title = (
-                    i.find(
-                        "td",
-                        {
-                            "class": [
-                                "gall_tit ub-word",
-                                "gall_tit ub-word voice_tit",
-                            ]
-                        },
-                    )
-                    .find_all("a")[0]
-                    .text.strip()
-                )
+                replyNum = i.find("a", "replyNum").text.strip().replace(",", "")
 
-                replyNum = i.find(
-                    "td",
-                    {
-                        "class": [
-                            "gall_tit ub-word",
-                            "gall_tit ub-word voice_tit",
-                        ]
-                    },
-                ).find_all("a")
+                timeString = i.find("td", "time").text.strip().split(":")
 
-                if len(replyNum) > 1:
-                    replyNum = (
-                        replyNum[1]
-                        .text.strip()
-                        .replace("[", "")
-                        .replace("]", "")
-                        .replace(",", "")
-                    )
+                if len(timeString) == 1:
+                    timeValue = timeString[0] + " 00:00:00"
+
                 else:
-                    replyNum = 0
+                    timeValue = datetime.datetime.combine(
+                        datetime.date.today(),
+                        datetime.time(int(timeString[0]), int(timeString[1])),
+                    ).strftime("%Y-%m-%d %H:%M:%S")
 
-                timeString = i.find("td", "gall_date")["title"]
-                timeValue = datetime.strptime(timeString, "%Y-%m-%d %H:%M:%S")
+                voteNum = i.find_all("td", "m_no")[0].text.strip().replace(",", "")
 
-                voteNum = i.find("td", "gall_recommend").text.strip().replace(",", "")
+                viewNum = i.find_all("td", "m_no")[1].text.strip().replace(",", "")
 
-                viewNum = i.find("td", "gall_count").text.strip().replace(",", "")
-
-                num = i.find("td", "gall_num").text.strip().replace(",", "")
+                document_num = url.find("document_srl=")
+                num = url[document_num:].replace("document_srl=", "").strip()
 
                 self.post_list.append(
                     (
@@ -132,13 +83,13 @@ class Crawling:
                         replyNum,
                         viewNum,
                         voteNum,
-                        timeValue.strftime("%Y-%m-%d %H:%M:%S"),
+                        timeValue,
                         url,
                         title,
                         replyNum,
                         viewNum,
                         voteNum,
-                        timeValue.strftime("%Y-%m-%d %H:%M:%S"),
+                        timeValue,
                     )
                 )
                 self.url_list.append(url)
@@ -158,13 +109,14 @@ class Crawling:
             )
             html = urlopen(reqUrl)
             soup = BeautifulSoup(html, "html.parser")
-            content_element = soup.find("div", "write_div")
+            content_element = soup.select_one(
+                "#bd_capture > div.rd_body.clear > article"
+            )
 
-            content_text = content_element.text.strip()
-            transTable = ["\xa0", " ", "\n", "-dcofficialApp"]
+            content_text = content_element.text
+            transTable = ["\xa0", " ", "\n", "Video태그를지원하지않는브라우저입니다."]
             for s in transTable:
                 content_text = content_text.replace(s, "")
-            content_text = content_text.split("출처:")[0]
 
             content_img = content_element.find_all("img")
 
@@ -174,11 +126,11 @@ class Crawling:
 
         except Exception as e:
             logging.error(f"Failed to get content: {str(e)}")
-            logging.error(f'Site: "HIT" Url: {url}')
+            logging.error(f'Site: "FM" Url: {url}')
 
     def insert_post_list(self) -> None:
         try:
-            insert_post_list_sql = "INSERT INTO post_table (site, num, url, title, replyNum, viewNum, voteNum, timeUpload) VALUES ('HIT', %s, %s, %s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE url = %s, title = %s, replyNum = %s, viewNum = %s, voteNum = %s, timeUpload = %s"
+            insert_post_list_sql = "INSERT INTO post_table (site, num, url, title, replyNum, viewNum, voteNum, timeUpload) VALUES ('FM', %s, %s, %s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE url = %s, title = %s, replyNum = %s, viewNum = %s, voteNum = %s, timeUpload = %s"
             conn = self.connect_to_db()
             cursor = conn.cursor()
             cursor.executemany(insert_post_list_sql, self.post_list)
@@ -201,7 +153,7 @@ class Crawling:
             cursor.executemany(update_content_sql, self.len_imgCount_url_tuple_list)
 
         except Exception as e:
-            logging.error(f"Failed to update content: {str(e)}")
+            logging.error(f"Failed to update content_len: {str(e)}")
 
         finally:
             conn.commit()
@@ -226,7 +178,7 @@ if __name__ == "__main__":
             },
             "file": {
                 "class": "logging.FileHandler",
-                "filename": "dc_hit_all_error.log",
+                "filename": "fm_all_error.log",
                 "formatter": "complex",
                 "encoding": "utf-8",
                 "level": "ERROR",
@@ -237,7 +189,7 @@ if __name__ == "__main__":
     logging.config.dictConfig(config)
     root_logger = logging.getLogger()
 
-    with open("dc_hit_count.txt", "r") as file:
+    with open("fm_count.txt", "r") as file:
         data = file.read().splitlines()[-1]
         if data == "0":
             logging.info("SOP")
@@ -246,10 +198,10 @@ if __name__ == "__main__":
     data = int(data) - 1
     c = Crawling()
     start = time.time()
-    c.execute(page=data, cnt=50)
+    c.execute(page=data, cnt=20)
     end = time.time()
     logging.debug(f"{(end - start):.1f}s")
-    with open("dc_hit_count.txt", "w") as file:
+    with open("fm_count.txt", "w") as file:
         file.write(f"{data}")
 
-# 2021-12-20: page 54
+# 2021-12-20: page 10000

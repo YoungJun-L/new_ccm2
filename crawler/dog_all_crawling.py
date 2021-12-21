@@ -1,6 +1,6 @@
 from urllib.request import urlopen, Request
 from bs4 import BeautifulSoup
-from datetime import datetime
+from datetime import datetime, timedelta
 from pymysql import connect
 
 from multiprocessing import Pool, Manager
@@ -47,7 +47,7 @@ class Crawling:
         return conn
 
     def get_post_list(self, page) -> None:
-        base_url = "https://gall.dcinside.com/board/lists/?id=hit&list_num=50&sort_type=N&exception_mode=recommend&search_head=&page="
+        base_url = "https://www.dogdrip.net/dogdrip?page="
         try:
             reqUrl = Request(
                 base_url + str(page),
@@ -59,70 +59,30 @@ class Crawling:
 
             soup = soup.find("tbody")
             for i in soup.find_all("tr"):
-                if (
-                    i.find("td", "gall_num").text.strip() == "설문"
-                    or i.find("td", "gall_num").text.strip() == "공지"
-                    or i.find("td", "gall_num").text.strip() == "이슈"
-                    or i.find("td", "gall_num").text.strip() == "AD"
-                ):
+                url = i.find("a", "ed link-reset")["href"]
+
+                title = i.find("span", "ed title-link").text.strip()
+                if title == "개드립 이용 규칙과 공지":
                     continue
 
-                url = (
-                    "https://gall.dcinside.com/"
-                    + i.find(
-                        "td",
-                        {
-                            "class": [
-                                "gall_tit ub-word",
-                                "gall_tit ub-word voice_tit",
-                            ]
-                        },
-                    ).find_all("a")[0]["href"]
-                )
+                replyNum = i.find("span", "ed text-primary").text.strip()
 
-                title = (
-                    i.find(
-                        "td",
-                        {
-                            "class": [
-                                "gall_tit ub-word",
-                                "gall_tit ub-word voice_tit",
-                            ]
-                        },
-                    )
-                    .find_all("a")[0]
-                    .text.strip()
-                )
+                timeString = i.find("td", "time").text.strip()
 
-                replyNum = i.find(
-                    "td",
-                    {
-                        "class": [
-                            "gall_tit ub-word",
-                            "gall_tit ub-word voice_tit",
-                        ]
-                    },
-                ).find_all("a")
-
-                if len(replyNum) > 1:
-                    replyNum = (
-                        replyNum[1]
-                        .text.strip()
-                        .replace("[", "")
-                        .replace("]", "")
-                        .replace(",", "")
-                    )
+                if timeString[-1] == "전":
+                    now = datetime.now().replace(microsecond=0)
+                    if timeString[-3] == "일":
+                        timeValue = now - timedelta(days=float(timeString[:-4]))
+                    elif timeString[-3] == "간":
+                        timeValue = now - timedelta(hours=float(timeString[:-5]))
+                    elif timeString[-3] == "분":
+                        timeValue = now - timedelta(minutes=float(timeString[:-4]))
                 else:
-                    replyNum = 0
+                    timeValue = datetime.strptime(timeString, "%Y.%m.%d")
 
-                timeString = i.find("td", "gall_date")["title"]
-                timeValue = datetime.strptime(timeString, "%Y-%m-%d %H:%M:%S")
+                voteNum = i.find("td", "ed voteNum text-primary").text.strip()
 
-                voteNum = i.find("td", "gall_recommend").text.strip().replace(",", "")
-
-                viewNum = i.find("td", "gall_count").text.strip().replace(",", "")
-
-                num = i.find("td", "gall_num").text.strip().replace(",", "")
+                num = url.replace("https://www.dogdrip.net/", "")
 
                 self.post_list.append(
                     (
@@ -130,13 +90,11 @@ class Crawling:
                         url,
                         title,
                         replyNum,
-                        viewNum,
                         voteNum,
                         timeValue.strftime("%Y-%m-%d %H:%M:%S"),
                         url,
                         title,
                         replyNum,
-                        viewNum,
                         voteNum,
                         timeValue.strftime("%Y-%m-%d %H:%M:%S"),
                     )
@@ -158,13 +116,12 @@ class Crawling:
             )
             html = urlopen(reqUrl)
             soup = BeautifulSoup(html, "html.parser")
-            content_element = soup.find("div", "write_div")
+            content_element = soup.find("div", id="article_1")
 
             content_text = content_element.text.strip()
-            transTable = ["\xa0", " ", "\n", "-dcofficialApp"]
+            transTable = ["\xa0", " ", "\n"]
             for s in transTable:
                 content_text = content_text.replace(s, "")
-            content_text = content_text.split("출처:")[0]
 
             content_img = content_element.find_all("img")
 
@@ -174,11 +131,11 @@ class Crawling:
 
         except Exception as e:
             logging.error(f"Failed to get content: {str(e)}")
-            logging.error(f'Site: "HIT" Url: {url}')
+            logging.error(f'Site: "DOG" Url: {url}')
 
     def insert_post_list(self) -> None:
         try:
-            insert_post_list_sql = "INSERT INTO post_table (site, num, url, title, replyNum, viewNum, voteNum, timeUpload) VALUES ('HIT', %s, %s, %s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE url = %s, title = %s, replyNum = %s, viewNum = %s, voteNum = %s, timeUpload = %s"
+            insert_post_list_sql = "INSERT INTO post_table (site, num, url, title, replyNum, voteNum, timeUpload) VALUES ('DOG', %s, %s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE url = %s, title = %s, replyNum = %s, voteNum = %s, timeUpload = %s"
             conn = self.connect_to_db()
             cursor = conn.cursor()
             cursor.executemany(insert_post_list_sql, self.post_list)
@@ -226,7 +183,7 @@ if __name__ == "__main__":
             },
             "file": {
                 "class": "logging.FileHandler",
-                "filename": "dc_hit_all_error.log",
+                "filename": "dog_all_error.log",
                 "formatter": "complex",
                 "encoding": "utf-8",
                 "level": "ERROR",
@@ -237,7 +194,7 @@ if __name__ == "__main__":
     logging.config.dictConfig(config)
     root_logger = logging.getLogger()
 
-    with open("dc_hit_count.txt", "r") as file:
+    with open("dog_count.txt", "r") as file:
         data = file.read().splitlines()[-1]
         if data == "0":
             logging.info("SOP")
@@ -246,10 +203,10 @@ if __name__ == "__main__":
     data = int(data) - 1
     c = Crawling()
     start = time.time()
-    c.execute(page=data, cnt=50)
+    c.execute(page=data, cnt=20)
     end = time.time()
     logging.debug(f"{(end - start):.1f}s")
-    with open("dc_hit_count.txt", "w") as file:
+    with open("dog_count.txt", "w") as file:
         file.write(f"{data}")
 
-# 2021-12-20: page 54
+# 2021-12-22: page 19133

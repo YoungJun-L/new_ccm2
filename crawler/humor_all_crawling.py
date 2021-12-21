@@ -124,7 +124,7 @@ class Crawling:
             logging.debug(f"{len(self.post_list)} Posts Crawled")
 
     def get_content(self, url) -> None:
-        t.sleep(random.randint(2, 3))
+        t.sleep(random.randint(5, 6))
         try:
             reqUrl = requests.get(
                 url,
@@ -169,7 +169,7 @@ class Crawling:
 
         except Exception as e:
             logging.error(f"Failed to get content: {str(e)}")
-            logging.error(f'Site: "HIT" Url: {url}')
+            logging.error(f'Site: "HUMOR" Url: {url}')
 
     def insert_post_list(self) -> None:
         try:
@@ -241,7 +241,7 @@ if __name__ == "__main__":
     data = int(data) - 1
     c = Crawling()
     start = t.time()
-    c.execute(page=1, cnt=20)
+    c.execute(page=data, cnt=20)
     end = t.time()
     logging.debug(f"{(end - start):.1f}s")
     with open("humor_count.txt", "w") as file:

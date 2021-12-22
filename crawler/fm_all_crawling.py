@@ -101,7 +101,7 @@ class Crawling:
             logging.debug(f"{len(self.post_list)} Posts Crawled")
 
     def get_content(self, url) -> None:
-        time.sleep(random.randint(2, 3))
+        time.sleep(random.randint(3, 6))
         try:
             reqUrl = Request(
                 url,

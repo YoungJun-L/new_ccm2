@@ -4,7 +4,6 @@ from pymysql import connect
 import requests
 import time as t
 import random
-import sys
 import re
 import logging
 import logging.config
@@ -121,9 +120,9 @@ class Crawling:
             reqUrl = requests.get(
                 url,
                 headers={
-                    "cache-control": "no-cache",
-                    "cookie": "c_cpuid_uuid=92b-3282-9091; c_cpuid=H-1d01-aa12; c_uuid_global=92b-3282-9091; adfit_sdk_id=c43de104-4c2e-4c14-b922-f115eeaf2357; c_check=6dbe464628d539fdd666d275e88b6991; c_cpuid_set=wOLgwJC_w2DGTJrV7qjkYpRkZn4EwOCVvdwgTnDo; hu_auto_cook=Fzxo; bad_count_cook=0; link=ok; __utma=150955945.314112250.1602219537.1602300124.1602341084.6; __utmb=150955945.0.10.1602341084; __utmc=150955945; __utmz=150955945.1602341084.6.3.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=(not%20provided); wcs_bt=395c7d0a9352ac:1602341285",
-                    "referer": "strict-origin-wh    en-cross-origin",
+                    "Cache-Control": "no-cache",
+                    "Cookie": "c_cpuid_uuid=92b-3282-9091; c_cpuid=H-1d01-aa12; c_uuid_global=92b-3282-9091; adfit_sdk_id=c43de104-4c2e-4c14-b922-f115eeaf2357; c_check=6dbe464628d539fdd666d275e88b6991; c_cpuid_set=wOLgwJC_w2DGTJrV7qjkYpRkZn4EwOCVvdwgTnDo; hu_auto_cook=Fzxo; bad_count_cook=0; link=ok; __utma=150955945.314112250.1602219537.1602300124.1602341084.6; __utmb=150955945.0.10.1602341084; __utmc=150955945; __utmz=150955945.1602341084.6.3.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=(not%20provided); wcs_bt=395c7d0a9352ac:1602341285",
+                    "Referer": "strict-origin-when-cross-origin",
                     "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36",
                 },
                 verify=False,
@@ -213,7 +212,7 @@ if __name__ == "__main__":
             },
             "file": {
                 "class": "logging.FileHandler",
-                "filename": "humor_all_error.log",
+                "filename": "humor_error.log",
                 "formatter": "complex",
                 "encoding": "utf-8",
                 "level": "ERROR",
@@ -224,19 +223,8 @@ if __name__ == "__main__":
     logging.config.dictConfig(config)
     root_logger = logging.getLogger()
 
-    with open("humor_count.txt", "r") as file:
-        data = file.read().splitlines()[-1]
-        if data == "-1":
-            logging.info("SOP")
-            sys.exit(0)
-
-    data = int(data) - 1
     c = Crawling()
     start = t.time()
-    c.execute(page=data, cnt=20)
+    c.execute(page=1, cnt=20)
     end = t.time()
     logging.debug(f"{(end - start):.1f}s")
-    with open("humor_count.txt", "w") as file:
-        file.write(f"{data}")
-
-# 2021-12-21: page 299 - 0

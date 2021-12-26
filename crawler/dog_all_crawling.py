@@ -52,12 +52,8 @@ class Crawling:
             reqUrl = requests.get(
                 base_url + str(page),
                 headers={
-                    "Cache-Control": "no-cache",
-                    "Cookie": "c_cpuid_uuid=92b-3282-9091; c_cpuid=H-1d01-aa12; c_uuid_global=92b-3282-9091; adfit_sdk_id=c43de104-4c2e-4c14-b922-f115eeaf2357; c_check=6dbe464628d539fdd666d275e88b6991; c_cpuid_set=wOLgwJC_w2DGTJrV7qjkYpRkZn4EwOCVvdwgTnDo; hu_auto_cook=Fzxo; bad_count_cook=0; link=ok; __utma=150955945.314112250.1602219537.1602300124.1602341084.6; __utmb=150955945.0.10.1602341084; __utmc=150955945; __utmz=150955945.1602341084.6.3.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=(not%20provided); wcs_bt=395c7d0a9352ac:1602341285",
-                    "Referer": "strict-origin-when-cross-origin",
                     "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36",
                 },
-                verify=False,
             )
 
             soup = BeautifulSoup(
@@ -115,17 +111,13 @@ class Crawling:
             logging.debug(f"{len(self.post_list)} Posts Crawled")
 
     def get_content(self, url) -> None:
-        time.sleep(random.randint(2, 3))
+        time.sleep(random.randint(5, 7))
         try:
             reqUrl = requests.get(
                 url,
                 headers={
-                    "Cache-Control": "no-cache",
-                    "Cookie": "c_cpuid_uuid=92b-3282-9091; c_cpuid=H-1d01-aa12; c_uuid_global=92b-3282-9091; adfit_sdk_id=c43de104-4c2e-4c14-b922-f115eeaf2357; c_check=6dbe464628d539fdd666d275e88b6991; c_cpuid_set=wOLgwJC_w2DGTJrV7qjkYpRkZn4EwOCVvdwgTnDo; hu_auto_cook=Fzxo; bad_count_cook=0; link=ok; __utma=150955945.314112250.1602219537.1602300124.1602341084.6; __utmb=150955945.0.10.1602341084; __utmc=150955945; __utmz=150955945.1602341084.6.3.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=(not%20provided); wcs_bt=395c7d0a9352ac:1602341285",
-                    "Referer": "strict-origin-when-cross-origin",
-                    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36",
+                    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36",
                 },
-                verify=False,
             )
 
             soup = BeautifulSoup(
@@ -224,4 +216,4 @@ if __name__ == "__main__":
     with open("dog_count.txt", "w") as file:
         file.write(f"{data}")
 
-# 2021-12-22: page 19142
+# 2021-12-26: page 19203

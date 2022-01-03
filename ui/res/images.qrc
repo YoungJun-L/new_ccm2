@@ -1,0 +1,14 @@
+<RCC>
+  <qresource prefix="icon">
+    <file>first_pressed.png</file>
+    <file>search_default.png</file>
+    <file>search_hover.png</file>
+    <file>search_pressed.png</file>
+    <file>first_default.png</file>
+    <file>icon.png</file>
+    <file>next_default.png</file>
+    <file>next_pressed.png</file>
+    <file>prev_default.png</file>
+    <file>prev_pressed.png</file>
+  </qresource>
+</RCC>

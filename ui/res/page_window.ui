@@ -1,0 +1,609 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1180</width>
+    <height>70</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1180</width>
+    <height>70</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1180</width>
+    <height>74</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="leftMargin">
+    <number>150</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>150</number>
+   </property>
+   <property name="bottomMargin">
+    <number>24</number>
+   </property>
+   <item>
+    <widget class="QPushButton" name="first_btn">
+     <property name="minimumSize">
+      <size>
+       <width>50</width>
+       <height>41</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>50</width>
+       <height>41</height>
+      </size>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+  background-image: url(:/icon/first_default.png);
+  background-repeat: no-repeat;
+  border: 0px;
+}
+
+QPushButton:hover {
+  background-image: url(:/icon/first_pressed.png);
+  background-repeat: no-repeat;
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+    <widget class="QPushButton" name="prev_btn">
+     <property name="minimumSize">
+      <size>
+       <width>50</width>
+       <height>41</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>50</width>
+       <height>41</height>
+      </size>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+  background-image: url(:/icon/prev_default.png);
+  background-repeat: no-repeat;
+  border: 0px;
+}
+
+QPushButton:hover {
+  background-image: url(:/icon/prev_pressed.png);
+  background-repeat: no-repeat;
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+    <widget class="QPushButton" name="page1_btn">
+     <property name="minimumSize">
+      <size>
+       <width>37</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>37</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+  background-color: rgb(58, 59, 61); 
+  color: rgb(119, 133, 133);
+  border: 0px;
+  font-family: -apple-system,BlinkMacSystemFont,&quot;Malgun Gothic&quot;,&quot;맑은 고딕&quot;,helvetica,&quot;Apple SD Gothic Neo&quot;,sans-serif;
+  font-size: 20px;
+  font-weight:bold;
+  text-align:center;
+}
+
+QPushButton:hover {
+  color: white;
+  font-weight: bold;
+}</string>
+     </property>
+     <property name="text">
+      <string>1</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+    <widget class="QPushButton" name="page2_btn">
+     <property name="minimumSize">
+      <size>
+       <width>37</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>37</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+  background-color: rgb(58, 59, 61); 
+  color: rgb(119, 133, 133);
+  border: 0px;
+  font-family: -apple-system,BlinkMacSystemFont,&quot;Malgun Gothic&quot;,&quot;맑은 고딕&quot;,helvetica,&quot;Apple SD Gothic Neo&quot;,sans-serif;
+  font-size: 20px;
+  font-weight:bold;
+  text-align:center;
+}
+
+QPushButton:hover {
+  color: white;
+  font-weight: bold;
+}</string>
+     </property>
+     <property name="text">
+      <string>2</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+    <widget class="QPushButton" name="page3_btn">
+     <property name="minimumSize">
+      <size>
+       <width>37</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>37</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+  background-color: rgb(58, 59, 61); 
+  color: rgb(119, 133, 133);
+  border: 0px;
+  font-family: -apple-system,BlinkMacSystemFont,&quot;Malgun Gothic&quot;,&quot;맑은 고딕&quot;,helvetica,&quot;Apple SD Gothic Neo&quot;,sans-serif;
+  font-size: 20px;
+  font-weight:bold;
+  text-align:center;
+}
+
+QPushButton:hover {
+  color: white;
+  font-weight: bold;
+}</string>
+     </property>
+     <property name="text">
+      <string>3</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+    <widget class="QPushButton" name="page4_btn">
+     <property name="minimumSize">
+      <size>
+       <width>37</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>37</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+  background-color: rgb(58, 59, 61); 
+  color: rgb(119, 133, 133);
+  border: 0px;
+  font-family: -apple-system,BlinkMacSystemFont,&quot;Malgun Gothic&quot;,&quot;맑은 고딕&quot;,helvetica,&quot;Apple SD Gothic Neo&quot;,sans-serif;
+  font-size: 20px;
+  font-weight:bold;
+  text-align:center;
+}
+
+QPushButton:hover {
+  color: white;
+  font-weight: bold;
+}</string>
+     </property>
+     <property name="text">
+      <string>4</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+    <widget class="QPushButton" name="page5_btn">
+     <property name="minimumSize">
+      <size>
+       <width>37</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>37</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+  background-color: rgb(58, 59, 61); 
+  color: rgb(119, 133, 133);
+  border: 0px;
+  font-family: -apple-system,BlinkMacSystemFont,&quot;Malgun Gothic&quot;,&quot;맑은 고딕&quot;,helvetica,&quot;Apple SD Gothic Neo&quot;,sans-serif;
+  font-size: 20px;
+  font-weight:bold;
+  text-align:center;
+}
+
+QPushButton:hover {
+  color: white;
+  font-weight: bold;
+}</string>
+     </property>
+     <property name="text">
+      <string>5</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+    <widget class="QPushButton" name="page6_btn">
+     <property name="minimumSize">
+      <size>
+       <width>37</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>37</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+  background-color: rgb(58, 59, 61); 
+  color: rgb(119, 133, 133);
+  border: 0px;
+  font-family: -apple-system,BlinkMacSystemFont,&quot;Malgun Gothic&quot;,&quot;맑은 고딕&quot;,helvetica,&quot;Apple SD Gothic Neo&quot;,sans-serif;
+  font-size: 20px;
+  font-weight:bold;
+  text-align:center;
+}
+
+QPushButton:hover {
+  color: white;
+  font-weight: bold;
+}</string>
+     </property>
+     <property name="text">
+      <string>6</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+    <widget class="QPushButton" name="page7_btn">
+     <property name="minimumSize">
+      <size>
+       <width>37</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>37</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+  background-color: rgb(58, 59, 61); 
+  color: rgb(119, 133, 133);
+  border: 0px;
+  font-family: -apple-system,BlinkMacSystemFont,&quot;Malgun Gothic&quot;,&quot;맑은 고딕&quot;,helvetica,&quot;Apple SD Gothic Neo&quot;,sans-serif;
+  font-size: 20px;
+  font-weight:bold;
+  text-align:center;
+}
+
+QPushButton:hover {
+  color: white;
+  font-weight: bold;
+}</string>
+     </property>
+     <property name="text">
+      <string>7</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+    <widget class="QPushButton" name="page8_btn">
+     <property name="minimumSize">
+      <size>
+       <width>37</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>37</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+  background-color: rgb(58, 59, 61); 
+  color: rgb(119, 133, 133);
+  border: 0px;
+  font-family: -apple-system,BlinkMacSystemFont,&quot;Malgun Gothic&quot;,&quot;맑은 고딕&quot;,helvetica,&quot;Apple SD Gothic Neo&quot;,sans-serif;
+  font-size: 20px;
+  font-weight:bold;
+  text-align:center;
+}
+
+QPushButton:hover {
+  color: white;
+  font-weight: bold;
+}</string>
+     </property>
+     <property name="text">
+      <string>8</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+    <widget class="QPushButton" name="page9_btn">
+     <property name="minimumSize">
+      <size>
+       <width>37</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>37</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+  background-color: rgb(58, 59, 61); 
+  color: rgb(119, 133, 133);
+  border: 0px;
+  font-family: -apple-system,BlinkMacSystemFont,&quot;Malgun Gothic&quot;,&quot;맑은 고딕&quot;,helvetica,&quot;Apple SD Gothic Neo&quot;,sans-serif;
+  font-size: 20px;
+  font-weight:bold;
+  text-align:center;
+}
+
+QPushButton:hover {
+  color: white;
+  font-weight: bold;
+}</string>
+     </property>
+     <property name="text">
+      <string>9</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+    <widget class="QPushButton" name="page10_btn">
+     <property name="minimumSize">
+      <size>
+       <width>37</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>37</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+  background-color: rgb(58, 59, 61); 
+  color: rgb(119, 133, 133);
+  border: 0px;
+  font-family: -apple-system,BlinkMacSystemFont,&quot;Malgun Gothic&quot;,&quot;맑은 고딕&quot;,helvetica,&quot;Apple SD Gothic Neo&quot;,sans-serif;
+  font-size: 20px;
+  font-weight:bold;
+  text-align:center;
+}
+
+QPushButton:hover {
+  color: white;
+  font-weight: bold;
+}</string>
+     </property>
+     <property name="text">
+      <string>10</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+    <widget class="QPushButton" name="next_btn">
+     <property name="minimumSize">
+      <size>
+       <width>50</width>
+       <height>41</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>50</width>
+       <height>41</height>
+      </size>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+  background-image: url(:/icon/next_default.png);
+  background-repeat: no-repeat;
+  border: 0px;
+}
+
+QPushButton:hover {
+  background-image: url(:/icon/next_pressed.png);
+  background-repeat: no-repeat;
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="pushButton_2">
+     <property name="minimumSize">
+      <size>
+       <width>50</width>
+       <height>41</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>50</width>
+       <height>41</height>
+      </size>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+  background-color: rgb(58, 59, 61); 
+  color: rgb(119, 133, 133);
+  border: 0px;
+  font-family: -apple-system,BlinkMacSystemFont,&quot;Malgun Gothic&quot;,&quot;맑은 고딕&quot;,helvetica,&quot;Apple SD Gothic Neo&quot;,sans-serif;
+  font-size: 25px;
+  font-weight:bold;
+  text-align:center;
+}
+
+QPushButton:hover {
+  color: white;
+  font-weight: bold;
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="images.qrc"/>
+ </resources>
+ <connections/>
+</ui>
